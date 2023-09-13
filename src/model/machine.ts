@@ -13,7 +13,7 @@ export interface MachineInitialData {
 }
 
 export class Machine {
-  readonly OIL_MIN_RADIUS = 1e-5;
+  readonly OIL_MIN_RADIUS = 0.8e-5;
   readonly OIL_MAX_RADIUS = 1e-4;
 
   existing_oils: {[key: number]: OilDrop} = {};
@@ -45,6 +45,8 @@ export class Machine {
 
     this.existing_oils[this.next_id] = new_oil;
     this.next_id += 1;
+
+    return this.next_id - 1;
   }
 
   checkOilDestroyed() {

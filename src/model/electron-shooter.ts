@@ -1,15 +1,21 @@
 import { OilDrop } from "./oil-drop";
 
+export interface ElectronShooterInitData {
+  wattage?: number;
+  radius?: number;
+  height?: number
+}
+
 export class ElectronShooter {
 
   wattage: number;
   radius: number;
   height: number;
 
-  constructor(wattage: number, radius: number, height: number) {
-    this.wattage = wattage;
-    this.radius = radius;
-    this.height = height;
+  constructor(props: ElectronShooterInitData) {
+    this.wattage = props.wattage ?? 0;
+    this.radius = props.radius ?? 0;
+    this.height = props.height ?? 0;
   }
 
   checkRange(oil: OilDrop) {

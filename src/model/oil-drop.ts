@@ -30,10 +30,12 @@ export class OilDrop {
     if (this.stopCondition(acceleration)) {
       this.terminal_velocities.push(this.velocity);
       this.terminated = true;
-      console.log(this.id, this.radius, this.height, this.terminal_velocities);
+      // console.log(this.id, this.radius, this.height, this.terminal_velocities);
     }
     // console.log(this.id, this.radius, this.height, this.velocity, this.terminal_velocities, this.terminated);
     this.height += this.velocity * time;
     this.velocity += acceleration * time;
+
+    return this.terminal_velocities.length;
   }
 }

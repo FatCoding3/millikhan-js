@@ -2,9 +2,9 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Machine, MachineInitialData } from "../model/machine";
 import { ElectronShooter, ElectronShooterInitData } from "../model/electron-shooter";
 import Konva from "konva";
-import { OilDrop } from "../model/oil-drop";
+import { OilDrop, VelocitiesDataItem } from "../model/oil-drop";
 
-interface MachineDisplayProps {
+export interface MachineDisplayProps {
   totalHeight: number;
   electronicHeight: number;
   electronicVoltage: number;
@@ -16,7 +16,9 @@ interface MachineDisplayProps {
   timeMoving: number;
   scale: number;
   running: boolean;
-  report: (report: {[key: number]: number}) => void;
+  report: (reportData: number[]) => void;
+  setSummaryData: (summaryData: VelocitiesDataItem[]) => void;
+
 }
 
 export const MachineDisplay = (props: MachineDisplayProps) => {
@@ -24,10 +26,6 @@ export const MachineDisplay = (props: MachineDisplayProps) => {
   const ref = useRef<HTMLDivElement>(null);
 
   const [time, setTime] = useState(0)
-  // const [machine, setMachine] = useState(
-    
-  //   )
-  // )
 
   useEffect(() => {
     const width = ref.current ? ref.current.clientWidth : -1;
@@ -40,7 +38,7 @@ export const MachineDisplay = (props: MachineDisplayProps) => {
         total_height: props.totalHeight,
         electronic_height: props.electronicHeight,
         electronic_voltage: props.electronicVoltage,
-        oil_radius_level: props.oilRadiusLevel
+        oil_radius_level: props.oilRadiusLevel,
       },
       {
         wattage: props.electronShooterWattage, 
@@ -199,7 +197,6 @@ export const MachineDisplay = (props: MachineDisplayProps) => {
           oilsAppearance[id].destroy();
           delete oilsAppearance[id];
           layer.draw();
-          console.log(key)
           continue;
         }
 
@@ -212,19 +209,41 @@ export const MachineDisplay = (props: MachineDisplayProps) => {
       }
     }
 
+    setTime(0);
+
+    const reportData = [0, 0, 0];
+    const summaryData: VelocitiesDataItem[] = [];
+    props.setSummaryData([]);
+
+    function doReportThings(velocitiesData: VelocitiesDataItem[]) {
+      for (const item of velocitiesData) {
+        const numOfTerminal = item.terminal_velocities.length;
+        reportData[numOfTerminal - 1] -= 1;
+        reportData[numOfTerminal] += 1;
+        
+        if (numOfTerminal == 2) {
+          summaryData.push(item);
+          props.setSummaryData([...summaryData.slice(-7)]);
+        }
+      }
+      props.report([...reportData]);
+    }
+
     const generateOilInterval = setInterval(() => {
       if (Object.keys(machine.existing_oils).length > maxOils)
         return;
       const id = machine.generateOil();
       createOilAppearance(machine.existing_oils[id]);
+      reportData[0] += 1
     }, 2 * props.generateOilEach * timeSlower / timeFaster);
 
     const movementInterval = setInterval(() => {
       for (let i = 0; i < timeFaster; i++) {
-        props.report(machine.timeEvolution(0.002));
+        const velocitiesData = machine.timeEvolution(0.002);
+        doReportThings(velocitiesData);
         moveOilAppearance();
+        setTime(time => time + 0.002);
       }
-      setTime(time => time + 0.002);
     }, Math.round(2/timeSlower));
 
     return () => {
@@ -232,7 +251,19 @@ export const MachineDisplay = (props: MachineDisplayProps) => {
       clearInterval(movementInterval);
       clearInterval(generateOilInterval);
     }
-  }, [props]);
+  }, [
+    props.totalHeight,
+    props.electronicHeight,
+    props.electronicVoltage,
+    props.oilRadiusLevel,
+    props.electronShooterHeight,
+    props.electronShooterWattage,
+    props.electronBeamRadius,
+    props.generateOilEach,
+    props.timeMoving,
+    props.scale,
+    props.running
+  ]);
 
   return (
     <div 

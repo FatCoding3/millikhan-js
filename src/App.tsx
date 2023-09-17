@@ -35,7 +35,7 @@ function App() {
         />
       </div> */}
 
-      <MeasurementPage/>
+      <MeasurementPage addSummaryData={(data) => {}}/>
     </div>
   );
 }

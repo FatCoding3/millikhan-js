@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 export interface RangeInputProps {
   name: string;
@@ -20,7 +20,7 @@ export const RangeInput = (props: RangeInputProps) => {
         {props.name + ': ' + props.input + ' ' + (props.unit ? props.unit : '')}
       </label>
       <input 
-        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500"
         type="range" 
         min={props.minValue}
         max={props.maxValue}

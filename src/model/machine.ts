@@ -3,7 +3,7 @@ import { ElectronShooter } from "./electron-shooter";
 import { ElectronicField } from "./electronic-field";
 import { Field } from "./field";
 import { GravityField } from "./gravity-field";
-import { OilDrop } from "./oil-drop";
+import { OilDrop, VelocitiesDataItem } from "./oil-drop";
 
 export interface MachineInitialData {
   total_height: number;
@@ -83,21 +83,19 @@ export class Machine {
   }
 
   oilMovementEvolution(time_diff: number) {
-    const report: {[key: number]: number} = {
-      0: 0, 1: 0, 2: 0
-    }
+    const velocitiesData: VelocitiesDataItem[] = [];
     for (const key of Object.keys(this.existing_oils)) {
       const id = parseInt(key);
       const oil = this.existing_oils[id];
 
-      const numOfTerminalVelocity = this.existing_oils[id].applyForce(
+      const velocitiesDataItem = this.existing_oils[id].applyForce(
         this.fieldsForce(oil),
         time_diff
-      )
+      );
 
-      report[numOfTerminalVelocity] ++;
+      if (velocitiesDataItem) velocitiesData.push(velocitiesDataItem);
     }
-    return report
+    return velocitiesData;
   }
 
   chargesEvolution(time_diff: number) {
@@ -114,8 +112,7 @@ export class Machine {
   timeEvolution(time_diff: number) {
     this.checkOilDestroyed();
     this.chargesEvolution(time_diff);
-    const report = this.oilMovementEvolution(time_diff);
     this.checkOilTerminalAgain(this.electronic_height);
-    return report
+    return this.oilMovementEvolution(time_diff)
   }
 }

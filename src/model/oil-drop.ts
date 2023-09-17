@@ -1,3 +1,8 @@
+export interface VelocitiesDataItem {
+  id: number;
+  terminal_velocities: number[]
+}
+
 export class OilDrop {
   readonly DENSITY = 700;
   readonly VELOCITY_STOP_CONDITION = 1e-7
@@ -24,18 +29,18 @@ export class OilDrop {
     return Math.abs(acceleration) < this.VELOCITY_STOP_CONDITION && !this.terminated;
   }
 
-  applyForce(force: number, time: number) {
+  applyForce(force: number, time: number): undefined | VelocitiesDataItem {
     const acceleration = force/this.mass;
 
-    if (this.stopCondition(acceleration)) {
-      this.terminal_velocities.push(this.velocity);
-      this.terminated = true;
-      // console.log(this.id, this.radius, this.height, this.terminal_velocities);
-    }
     // console.log(this.id, this.radius, this.height, this.velocity, this.terminal_velocities, this.terminated);
     this.height += this.velocity * time;
     this.velocity += acceleration * time;
 
-    return this.terminal_velocities.length;
+    if (this.stopCondition(acceleration)) {
+      this.terminal_velocities.push(this.velocity);
+      this.terminated = true;
+      return { id: this.id, terminal_velocities: this.terminal_velocities };
+    }
+    return undefined
   }
 }

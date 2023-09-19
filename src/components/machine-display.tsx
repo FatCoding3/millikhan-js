@@ -18,7 +18,7 @@ export interface MachineDisplayProps {
   running: boolean;
   report: (reportData: number[]) => void;
   setSummaryData: (summaryData: VelocitiesDataItem[]) => void;
-
+  updateSendingData: (item: VelocitiesDataItem) => void;
 }
 
 export const MachineDisplay = (props: MachineDisplayProps) => {
@@ -212,7 +212,7 @@ export const MachineDisplay = (props: MachineDisplayProps) => {
     setTime(0);
 
     const reportData = [0, 0, 0];
-    const summaryData: VelocitiesDataItem[] = [];
+    let summaryData: VelocitiesDataItem[] = [];
     props.setSummaryData([]);
 
     function doReportThings(velocitiesData: VelocitiesDataItem[]) {
@@ -223,7 +223,9 @@ export const MachineDisplay = (props: MachineDisplayProps) => {
         
         if (numOfTerminal == 2) {
           summaryData.push(item);
-          props.setSummaryData([...summaryData.slice(-7)]);
+          summaryData = summaryData.slice(-7)
+          props.setSummaryData([...summaryData]);
+          props.updateSendingData(item);
         }
       }
       props.report([...reportData]);

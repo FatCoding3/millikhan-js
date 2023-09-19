@@ -1,1 +1,3 @@
-export const hello = 1
+export const DataShowing = () => {
+  
+}

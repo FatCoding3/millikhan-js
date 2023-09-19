@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { RangeInput } from "../components/range-input";
 import { MachineDisplay } from "../components/machine-display";
 import { CustomButton } from "../components/custom-button";
@@ -7,7 +7,7 @@ import { VelocitiesDataItem } from "../model/oil-drop";
 import { ShowingData } from "../components/showing-data";
 
 export interface MeasurementPageProps {
-   addSummaryData: (data: VelocitiesDataItem[]) => void
+   addSummaryData: (data: VelocitiesDataItem[], intensity: number) => void
 }
 
 export const MeasurementPage = (props: MeasurementPageProps) => {
@@ -25,6 +25,11 @@ export const MeasurementPage = (props: MeasurementPageProps) => {
 
   const [summaryData, setSummaryData] = useState<VelocitiesDataItem[]>([])
   const [report, setReport] = useState([0, 0, 0])
+
+  const sendingData = useRef<VelocitiesDataItem[]>([])
+  const updateSendingData = (item: VelocitiesDataItem) => {
+    sendingData.current = [...sendingData.current, item]
+  }
   
   return (
     <div className="flex flex-row h-full w-full items-center pr-5">
@@ -46,6 +51,7 @@ export const MeasurementPage = (props: MeasurementPageProps) => {
           scale={scale}
           report={(reportData) => {setReport(reportData)}}
           setSummaryData={(summaryData) => {setSummaryData(summaryData)}}
+          updateSendingData={updateSendingData}
         />
       </div>
 
@@ -59,7 +65,7 @@ export const MeasurementPage = (props: MeasurementPageProps) => {
         >
           <div
             id='input'
-            className={"flex flex-col w-full h-full p-4 pb-5 gap-[3%] overflow-auto " + (running ? 'hidden ' : '')}
+            className={"flex flex-col w-full h-full p-4 pb-5 gap-[1%] overflow-auto " + (running ? 'hidden ' : '')}
           >
             <RangeInput name={'Machine height'} minValue={0.2} maxValue={4} input={machineTotalHeight} step={0.01} unit={'m'} setInput={(v) => setMachineTotalHeight(v)}/>
             <RangeInput name={'Electronic field height'} minValue={0.1} maxValue={machineTotalHeight} input={machineElectronicHeight} step={0.01} unit={'m'} setInput={(v) => setMachineElectronicHeight(v)}/>
@@ -108,7 +114,7 @@ export const MeasurementPage = (props: MeasurementPageProps) => {
               <CustomButton 
                 onchange={() => {
                   setRunning(false);
-                  props.addSummaryData(summaryData);
+                  props.addSummaryData(sendingData.current, machineElectronicVoltage/machineElectronicHeight);
                 }}
               >
                 Stop running

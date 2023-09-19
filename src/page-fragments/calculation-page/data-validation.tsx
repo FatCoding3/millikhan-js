@@ -1,12 +1,7 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { VelocitiesDataItem } from "../../model/oil-drop"
 import { CSVLink } from 'react-csv'
-
-export interface InputItem {
-  id: number,
-  electronicIntensity: number,
-  velocitiesData: VelocitiesDataItem[]
-}
+import { ApplyDeleteContext } from "../../App"
 
 export type DeleteInfo = {[key: string]: number}
 
@@ -20,13 +15,14 @@ export interface CalculatedDataItem {
 
 export interface DataValidationProps {
   data:  CalculatedDataItem[],
-  applyDelete: (deleteInfo: DeleteInfo) => void,
   showGraph: () => void,
 }
 
 export const DataValidation = (props: DataValidationProps) => {
 
-  const [deleteInfo, setDeleteInfo] = useState<DeleteInfo>({})
+  const applyDelete = useContext(ApplyDeleteContext);
+
+  const [deleteInfo, setDeleteInfo] = useState<DeleteInfo>({});
 
   function changeDelete(id: string, checked: boolean) {
     const copyDeleteInfo = {...deleteInfo};
@@ -52,7 +48,7 @@ export const DataValidation = (props: DataValidationProps) => {
         filename="millikhanjs-data.csv" 
         enclosingCharacter={``}
       >
-        Download
+        Download csv
       </CSVLink>
     )
   }
@@ -94,7 +90,7 @@ export const DataValidation = (props: DataValidationProps) => {
             "w-[120px] h-[40px] bg-red-600 text-white rounded-full font-bold text-md hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 "
             + (Object.keys(deleteInfo).length > 0 ? '' : 'hidden')
           }
-          onChange={() => props.applyDelete(deleteInfo)}
+          onChange={() => applyDelete(deleteInfo)}
         >
           Delete
         </button>
@@ -125,14 +121,13 @@ const ThisDataItem = (props: {
         <div className="w-[5%] flex items-center justify-center border-[1px]">
           <input 
             type="checkbox" 
-            content="X"
             className="w-4 h-4 text-red-600 bg-gray-100 border-gray-100 rounded focus:ring-red-500 focus:ring-2 accent-red-500"
             onChange={(e) => {props.changeDelete(item.id, e.target.checked)}}
           />
         </div>
         <div className="w-[19%] flex items-center justify-center border-[1px]">{item.id}</div>
-        <div className="w-[19%] flex items-center justify-center border-[1px]">{item.velocity1}</div>
-        <div className="w-[19%] flex items-center justify-center border-[1px]">{item.velocity2}</div>
+        <div className="w-[19%] flex items-center justify-center border-[1px]">{item.velocity1.toFixed(5)}</div>
+        <div className="w-[19%] flex items-center justify-center border-[1px]">{item.velocity2.toFixed(5)}</div>
         <div className="w-[19%] flex items-center justify-center border-[1px]">{item.electronicIntensity}</div>
         <div className="w-[19%] flex items-center justify-center border-[1px]">
           {toFixed(item.calCharges, 4)}

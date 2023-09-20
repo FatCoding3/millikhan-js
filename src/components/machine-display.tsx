@@ -237,7 +237,7 @@ export const MachineDisplay = (props: MachineDisplayProps) => {
       const id = machine.generateOil();
       createOilAppearance(machine.existing_oils[id]);
       reportData[0] += 1
-    }, 2 * props.generateOilEach * timeSlower / timeFaster);
+    },2 * props.generateOilEach * timeSlower / timeFaster);
 
     const movementInterval = setInterval(() => {
       for (let i = 0; i < timeFaster; i++) {

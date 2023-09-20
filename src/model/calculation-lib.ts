@@ -3,7 +3,7 @@ export const calculateCharges = (
   velocity2: number,
   electronicIntensity: number
 ) => {
-  const PI: number = 3.14159
+  const PI: number = Math.PI
   const GRAVITY: number = 9.807
   const VISCOSITY: number = 1.849e-5
   const OIL_DENSITY: number = 700

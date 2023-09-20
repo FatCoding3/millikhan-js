@@ -1,7 +1,5 @@
 
 import React, { useState, createContext } from 'react';
-import { MachineDisplay } from './components/machine-display';
-import { RangeInput } from './components/range-input';
 import { MeasurementPage } from './page-fragments/measurement-page';
 import { CalculatedDataItem, DataValidation, DeleteInfo } from './page-fragments/calculation-page/data-validation';
 import { CalculationPage, RawDataItem } from './page-fragments/calculation-page';
@@ -23,7 +21,7 @@ function App() {
       const copyOilData = []
       for (const item of rawData[i].oilData) {
         if (deleteInfo[(i + '-' + item.id)]) continue;
-        copyOilData.push(item)
+        copyOilData.push({...item})
       }
       copyRawData.push({ 
         electronicIntensity: rawData[i].electronicIntensity,

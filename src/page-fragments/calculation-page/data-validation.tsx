@@ -26,7 +26,7 @@ export const DataValidation = (props: DataValidationProps) => {
 
   function changeDelete(id: string, checked: boolean) {
     const copyDeleteInfo = {...deleteInfo};
-    if (checked) copyDeleteInfo[id] = 0;
+    if (checked) copyDeleteInfo[id] = 1;
     if (!checked) delete copyDeleteInfo[id];
     setDeleteInfo(copyDeleteInfo);
   }
@@ -55,27 +55,38 @@ export const DataValidation = (props: DataValidationProps) => {
 
   return (
     <div className="w-full h-full flex flex-col">
-      <div
-        className='w-full flex h-[40px] bg-gray-200 overflow-y-scroll'
-      >
-        <div className="w-[5%] flex items-center justify-center border-[1px] border-gray-300"></div>
-        <div className="w-[19%] flex items-center justify-center border-[1px] border-gray-300">id</div>
-        <div className="w-[19%] flex items-center justify-center border-[1px] border-gray-300">V1</div>
-        <div className="w-[19%] flex items-center justify-center border-[1px] border-gray-300">V2</div>
-        <div className="w-[19%] flex items-center justify-center border-[1px] border-gray-300">E</div>
-        <div className="w-[19%] flex items-center justify-center border-[1px] border-gray-300">cal Q</div>
-      </div>
+      <div className="w-full h-fit border-2 border-gray-300">
+        <div
+          className='w-full flex h-[40px] bg-gray-200 overflow-y-scroll'
+        >
+          <div className="w-[5%] flex items-center justify-center border-[1px] border-gray-300 border-l-0 border-t-0"></div>
+          <div className="w-[19%] flex items-center justify-center border-[1px] border-gray-300 border-t-0">id</div>
+          <div className="w-[19%] flex items-center justify-center border-[1px] border-gray-300 border-t-0">V1</div>
+          <div className="w-[19%] flex items-center justify-center border-[1px] border-gray-300 border-t-0">V2</div>
+          <div className="w-[19%] flex items-center justify-center border-[1px] border-gray-300 border-t-0">E</div>
+          <div className="w-[19%] flex items-center justify-center border-[1px] border-gray-300 border-t-0">cal Q</div>
+        </div>
 
-      <div className="h-[400px] overflow-y-scroll border-b-2 border-gray-300">
-        {
-          props.data.map((item) => (
-            <ThisDataItem item={item} changeDelete={changeDelete}/>
-          ))
-        }
+        <div className="h-[400px] overflow-y-scroll">
+          {
+            props.data.map((item) => (
+              <ThisDataItem item={item} changeDelete={changeDelete} deleteInfo={deleteInfo}/>
+            ))
+          }
+          <div 
+            className={
+              "w-full h-full flex items-center justify-center text-4xl font-bold text-gray-400 "
+              + (props.data.length > 0 ? 'hidden' : '')
+            }
+          >
+            No data to show
+          </div>
+        </div>
       </div>
 
       <div className="flex gap-6 items-center justify-center w-full h-[80px]">
         <button 
+          disabled={props.data.length <= 0}
           className={
             "w-[120px] h-[40px] bg-green-600 text-white rounded-full font-bold text-sm hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-300 "
             + (Object.keys(deleteInfo).length > 0 ? 'hidden' : '')
@@ -90,7 +101,10 @@ export const DataValidation = (props: DataValidationProps) => {
             "w-[120px] h-[40px] bg-red-600 text-white rounded-full font-bold text-md hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 "
             + (Object.keys(deleteInfo).length > 0 ? '' : 'hidden')
           }
-          onChange={() => applyDelete(deleteInfo)}
+          onClick={() => {
+            setDeleteInfo({});
+            applyDelete(deleteInfo);
+          }}
         >
           Delete
         </button>
@@ -101,7 +115,7 @@ export const DataValidation = (props: DataValidationProps) => {
             + (Object.keys(deleteInfo).length > 0 ? 'hidden' : '')
           }
         >
-          {getCSVLink()}
+          {props.data.length <= 0 ? <button disabled={true}>Download csv</button> : getCSVLink()}
         </div>
       </div>
     </div>
@@ -111,8 +125,10 @@ export const DataValidation = (props: DataValidationProps) => {
 const ThisDataItem = (props: { 
   item: CalculatedDataItem, 
   changeDelete: (id: string, checked: boolean) => void,
+  deleteInfo: DeleteInfo,
 }) => {
   const item = props.item;
+
   return (
     <div
         id={item.id}
@@ -120,9 +136,13 @@ const ThisDataItem = (props: {
       >
         <div className="w-[5%] flex items-center justify-center border-[1px]">
           <input 
-            type="checkbox" 
+            id={item.id + '-checkbox'}
+            type="checkbox"
+            checked={Boolean(props.deleteInfo[item.id])}
             className="w-4 h-4 text-red-600 bg-gray-100 border-gray-100 rounded focus:ring-red-500 focus:ring-2 accent-red-500"
-            onChange={(e) => {props.changeDelete(item.id, e.target.checked)}}
+            onChange={(e) => {
+              props.changeDelete(item.id, e.target.checked);
+            }}
           />
         </div>
         <div className="w-[19%] flex items-center justify-center border-[1px]">{item.id}</div>

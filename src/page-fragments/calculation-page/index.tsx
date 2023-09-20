@@ -1,5 +1,7 @@
 import React, { useState } from "react"
 import { CalculatedDataItem, DataValidation } from "./data-validation"
+import { CheckE } from "../../components/check-e";
+import { FindingE } from "./finding-e";
 
 export interface RawDataItem {
   electronicIntensity: number,
@@ -13,7 +15,7 @@ export interface RawDataItem {
 
 const getCalculatedData = (rawData: RawDataItem[], choosingData: {[key: number]: number}) => {
   const calculatedData: CalculatedDataItem[] = [];
-  for (const key in Object.keys(choosingData)) {
+  for (const key of Object.keys(choosingData)) {
     const index = parseInt(key);
     rawData[index].oilData.forEach((item) => {
       calculatedData.push({
@@ -25,17 +27,15 @@ const getCalculatedData = (rawData: RawDataItem[], choosingData: {[key: number]:
       })
     })
   }
-  console.log(calculatedData.length)
   return calculatedData;
 }
 
 export const CalculationPage = (props: {data: RawDataItem[], numExp: number}) => {
-
   const [choosingData, setChoosingData] = useState<{[key: number]: number}>({})
 
   const changeChoosingData = (index: number, checked: boolean) => {
     const copyChoosingData = {...choosingData};
-    if (checked) copyChoosingData[index] = 0;
+    if (checked) copyChoosingData[index] = 1;
     if (!checked) delete copyChoosingData[index];
     setChoosingData(copyChoosingData);
   }
@@ -50,8 +50,8 @@ export const CalculationPage = (props: {data: RawDataItem[], numExp: number}) =>
 
   return (
     <div className="w-full h-full flex pr-5 ">
-      <div className="flex flex-col h-full w-[70%] items-center pt-[3%]">
-        <DataValidation data={getCalculatedData(props.data, choosingData)} showGraph={() => {}}/>
+      <div className="flex flex-col h-full w-[70%] items-center pt-[5%]">
+        <FindingE calculatedData={getCalculatedData(props.data, choosingData)}/>
       </div>
 
       <div

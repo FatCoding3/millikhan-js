@@ -2,6 +2,7 @@ import { useContext, useState } from "react"
 import { VelocitiesDataItem } from "../../model/oil-drop"
 import { CSVLink } from 'react-csv'
 import { ApplyDeleteContext } from "../../App"
+import { toFixed } from "../../helper/to-fixed"
 
 export type DeleteInfo = {[key: string]: number}
 
@@ -89,7 +90,6 @@ export const DataValidation = (props: DataValidationProps) => {
           disabled={props.data.length <= 0}
           className={
             "w-[120px] h-[40px] bg-green-600 text-white rounded-full font-bold text-sm hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-300 "
-            + (Object.keys(deleteInfo).length > 0 ? 'hidden' : '')
           }
           onClick={() => props.showGraph()}
         >
@@ -146,21 +146,14 @@ const ThisDataItem = (props: {
           />
         </div>
         <div className="w-[19%] flex items-center justify-center border-[1px]">{item.id}</div>
-        <div className="w-[19%] flex items-center justify-center border-[1px]">{item.velocity1.toFixed(5)}</div>
-        <div className="w-[19%] flex items-center justify-center border-[1px]">{item.velocity2.toFixed(5)}</div>
-        <div className="w-[19%] flex items-center justify-center border-[1px]">{item.electronicIntensity}</div>
+        <div className="w-[19%] flex items-center justify-center border-[1px]">{item.velocity1.toFixed(6)}</div>
+        <div className="w-[19%] flex items-center justify-center border-[1px]">{item.velocity2.toFixed(6)}</div>
         <div className="w-[19%] flex items-center justify-center border-[1px]">
-          {toFixed(item.calCharges, 4)}
+          {toFixed(item.electronicIntensity, 3)}
+        </div>
+        <div className="w-[19%] flex items-center justify-center border-[1px]">
+          {toFixed(item.calCharges, 6)}
         </div>
       </div>
   )
-}
-
-const toFixed = (num: Number, decimal: number) => {
-  const stringNumber = String(num);
-  const [numPart, ePart] = stringNumber.split('e');
-  const [realPart, decimalPart] = numPart.split('.');
-  const newEPart = (ePart) ? 'e' + ePart : '';
-  const newDecimalPart = (decimalPart) ? '.' + decimalPart.slice(0, decimal) : ''
-  return realPart + newDecimalPart + newEPart;
 }

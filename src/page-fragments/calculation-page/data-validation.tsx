@@ -68,7 +68,7 @@ export const DataValidation = (props: DataValidationProps) => {
           <div className="w-[19%] flex items-center justify-center border-[1px] border-gray-300 border-t-0">cal Q</div>
         </div>
 
-        <div className="h-[400px] overflow-y-scroll">
+        <div className="h-[360px] overflow-y-scroll">
           {
             props.data.map((item) => (
               <ThisDataItem item={item} changeDelete={changeDelete} deleteInfo={deleteInfo}/>
@@ -146,8 +146,8 @@ const ThisDataItem = (props: {
           />
         </div>
         <div className="w-[19%] flex items-center justify-center border-[1px]">{item.id}</div>
-        <div className="w-[19%] flex items-center justify-center border-[1px]">{item.velocity1.toFixed(6)}</div>
-        <div className="w-[19%] flex items-center justify-center border-[1px]">{item.velocity2.toFixed(6)}</div>
+        <div className="w-[19%] flex items-center justify-center border-[1px]">{-item.velocity1.toFixed(6)}</div>
+        <div className="w-[19%] flex items-center justify-center border-[1px]">{-item.velocity2.toFixed(6)}</div>
         <div className="w-[19%] flex items-center justify-center border-[1px]">
           {toFixed(item.electronicIntensity, 3)}
         </div>

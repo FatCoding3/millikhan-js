@@ -22,12 +22,18 @@ export const ShowingGraph = (props: { data: CalculatedDataItem[], showDataTable:
   const options = {
     scales: {
       x: {
-        display: false,
+        ticks: {
+          callback: function(val: any, index: any, context: any) {
+            return (index == 0 || index == context.length - 1) ? 
+              toFixed(parseFloat(String(val)), 6) : '';
+          },
+        }
       },
       y: {
-        min: 0,
-        max: 2,
-        ticks: { stepSize: 1 }
+        ticks: {
+          display: false,
+          stepSize: 1
+        }
       },
     },
     element: {
@@ -73,7 +79,7 @@ export const ShowingGraph = (props: { data: CalculatedDataItem[], showDataTable:
   
   return (
     <div className="w-full h-fit">
-      <div className="w-full h-[444px] flex items-center justify-center">
+      <div className="w-full h-[404px] flex items-center justify-center">
         <Scatter options={options} data={data}/>
       </div>
 

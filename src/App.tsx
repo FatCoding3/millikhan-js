@@ -67,9 +67,17 @@ function App() {
     <div className='w-[100vw] h-[100vh]'>
       <div id='change-button' className='absolute top-0 left-0 w-[70%] h-fit flex justify-center z-20'>
         <button 
+          className={
+            'w-[120px] h-[30px] rounded-bl-xl ' 
+            + (isCalculate ? 'bg-gray-200 text-gray-600 ' : 'bg-blue-600 text-white ' )
+          }
           onClick={() => setIsCalculate(false)}
         >Measurement</button>
         <button 
+          className={
+            'w-[120px] h-[30px] rounded-br-xl ' 
+            + (!isCalculate ? 'bg-gray-200 text-gray-600 ' : 'bg-blue-600 text-white ' )
+          }
           onClick={() => setIsCalculate(true)}
         >Calculation</button>
       </div>

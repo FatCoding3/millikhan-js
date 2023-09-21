@@ -72,7 +72,7 @@ export const MeasurementPage = (props: MeasurementPageProps) => {
             <RangeInput name={'Electronic Voltage'} minValue={10000} maxValue={100000} input={machineElectronicVoltage} step={1000} unit={'V'} setInput={(v) => setMachineElectronicVoltage(v)}/>
             <RangeInput name={'Oil radius level'} minValue={1} maxValue={4} input={machineOilRadiusLevel} step={1} setInput={(v) => setMachineOilRadiusLevel(v)}/>
             <RangeInput name={'Generate oil each'} minValue={200} maxValue={10000} input={generateOilEach} step={200} unit={'ms'} setInput={(v) => setGenerateOilEach(v)}/>
-            <RangeInput name={'Electron shooter wattage'} minValue={0.1} maxValue={10} input={electronShooterWattage} step={0.1} unit={' x 10^6 e/ms'} setInput={(v) => setElectronShooterWattage(v)}/>
+            <RangeInput name={'E shooter wattage'} minValue={0.1} maxValue={10} input={electronShooterWattage} step={0.1} unit={' x 10^6 e/ms'} setInput={(v) => setElectronShooterWattage(v)}/>
             <RangeInput name={'Electron shooter y position'} minValue={0.1} maxValue={machineTotalHeight} input={electronShooterHeight} step={0.01} setInput={(v) => setElectronShooterHeight(v)}/>
             <RangeInput name={'Electron beam radius'} minValue={1} maxValue={10} input={electronBeamRadius} step={0.5} unit={'mm'} setInput={(v) => setElectronBeamRadius(v)}/>
             
@@ -115,6 +115,7 @@ export const MeasurementPage = (props: MeasurementPageProps) => {
                 onchange={() => {
                   setRunning(false);
                   props.addSummaryData(sendingData.current, machineElectronicVoltage/machineElectronicHeight);
+                  sendingData.current = [];
                 }}
               >
                 Stop running

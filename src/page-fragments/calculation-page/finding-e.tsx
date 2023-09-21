@@ -10,7 +10,7 @@ export const FindingE = (props: {calculatedData: CalculatedDataItem[]}) => {
   const charges = props.calculatedData.map((item) => item.calCharges);
 
   return (
-    <div className="w-full h-full flex flex-col px-10">
+    <div className="w-full h-full flex flex-col">
       <div className={(showGraph ? 'hidden' : '')}>
         <DataValidation data={props.calculatedData} showGraph={() => {setShowGraph(true)}}/>
       </div>

@@ -1,5 +1,5 @@
 
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 import { MeasurementPage } from './page-fragments/measurement-page';
 import { DeleteInfo } from './page-fragments/calculation-page/data-validation';
 import { CalculationPage, RawDataItem } from './page-fragments/calculation-page';
@@ -21,6 +21,10 @@ ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend, zoomPl
 export const ApplyDeleteContext = createContext((deleteInfo: DeleteInfo) => {});
 
 function App() {
+
+  useEffect(() => {
+    document.title = 'Millikhan JS'
+  }, [])
 
   const [rawData, setRawData] = useState<RawDataItem[]>([]);
   const [isCalculate, setIsCalculate] = useState(false);
@@ -64,7 +68,8 @@ function App() {
   }
 
   return (
-    <div className='w-[100vw] h-[100vh]'>
+    <div className='w-[100vw] h-[100vh] bg-gray-50'>
+      <div className='text-gray-400 absolute top-0 left-2'>Beta 0.1.1</div>
       <div id='change-button' className='absolute top-0 left-0 w-[70%] h-fit flex justify-center z-20'>
         <button 
           className={

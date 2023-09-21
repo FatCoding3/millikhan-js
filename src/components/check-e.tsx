@@ -5,7 +5,7 @@ export const CheckE = (props: {charges: number[]}) => {
   const [right, setRight] = useState(false);
   const [checked, setChecked] = useState(false);
   const [predictE, setPredictE] = useState('');
-  const [acceptable, setAcceptable] = useState('1e-4')
+  const [acceptable, setAcceptable] = useState('')
 
   useEffect(() => {
     setChecked(false)

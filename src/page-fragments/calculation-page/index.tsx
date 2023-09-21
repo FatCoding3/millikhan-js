@@ -50,7 +50,7 @@ export const CalculationPage = (props: {data: RawDataItem[], numExp: number}) =>
   return (
     <div className="w-full h-full flex pr-5 ">
       <div className="flex flex-col h-full w-[70%] items-center justify-center">
-        <div className="w-[95%] h-[90%] pt-[30px]">
+        <div className="w-[95%] h-[90%] pt-[30px] pl-[2%]">
           <FindingE calculatedData={getCalculatedData(props.data, choosingData)}/>
         </div>
       </div>

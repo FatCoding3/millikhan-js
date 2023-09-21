@@ -1,21 +1,23 @@
+import { useEffect, useState } from "react";
 import { VelocitiesDataItem } from "../model/oil-drop";
 
-export const ShowingData = (props: { data: VelocitiesDataItem[] }) => {
-  
-  const maxColumnShow = 6
+export const ShowingData = (props: { addData: VelocitiesDataItem[], running: boolean }) => {
+
+  const [data, setData] = useState<VelocitiesDataItem[]>([]);
+
+  const maxColumnShow = 5
+
+  useEffect(() => {
+    setData([])
+  }, [props.running]);
+
+  useEffect(() => {
+    if (!props.addData[0]) return;
+    setData([...data.slice(-maxColumnShow), props.addData[0]])
+  }, [props.addData[0]]);
 
   const getShowingData = () => {
-    if (props.data.length < maxColumnShow) {
-      const samples = Array<VelocitiesDataItem>(maxColumnShow - props.data.length).fill(
-        { id: NaN, terminal_velocities: [NaN, NaN] }
-      )
-      return [...props.data.reverse(), ...samples];
-    }
-    
-    if (props.data.length == maxColumnShow)
-      return (props.data.reverse());
-
-    return (props.data.slice(-maxColumnShow+1).reverse())
+    return (data.slice(-maxColumnShow).reverse())
   }
 
   return (
@@ -41,7 +43,7 @@ export const ShowingData = (props: { data: VelocitiesDataItem[] }) => {
             }    
           </tbody>
             
-          <tfoot className={(props.data.length > maxColumnShow) ? '' : 'hidden'}>
+          <tfoot className={(data.length > maxColumnShow) ? '' : 'hidden'}>
             <tr className="font-medium text-gray-600 border-b">
                 <th scope="col" className="px-6 py-3">
                   {'...'}
@@ -59,17 +61,17 @@ export const ShowingData = (props: { data: VelocitiesDataItem[] }) => {
   )
 }
 
-export const ShowingDataItem = (props: { data: VelocitiesDataItem }) => {
+export const ShowingDataItem = (props: { data: VelocitiesDataItem }) => {;
   return (
-    <tr className="border-b">
+    <tr className="border-b" id={'data-item-' + props.data.id}>
         <th scope="row" className="px-6 py-4 font-medium">
           {props.data.id}
         </th>
         <td className="px-6 py-4">
-          {props.data.terminal_velocities[0].toFixed(4) + ' m/s'}
+          {-props.data.terminal_velocities[0].toFixed(4) + ' m/s'}
         </td>
         <td className="px-6 py-4">
-          {props.data.terminal_velocities[1].toFixed(4) + ' m/s'}
+          {-props.data.terminal_velocities[1].toFixed(4) + ' m/s'}
         </td>
     </tr>   
   )

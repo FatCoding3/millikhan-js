@@ -23,7 +23,6 @@ export const MeasurementPage = (props: MeasurementPageProps) => {
   const [scale, setScale] = useState(1);
   const [running, setRunning] = useState(false);
 
-  const [summaryData, setSummaryData] = useState<VelocitiesDataItem[]>([])
   const [report, setReport] = useState([0, 0, 0])
 
   const sendingData = useRef<VelocitiesDataItem[]>([])
@@ -50,7 +49,6 @@ export const MeasurementPage = (props: MeasurementPageProps) => {
           running={running}
           scale={scale}
           report={(reportData) => {setReport(reportData)}}
-          setSummaryData={(summaryData) => {setSummaryData(summaryData)}}
           updateSendingData={updateSendingData}
         />
       </div>
@@ -106,11 +104,12 @@ export const MeasurementPage = (props: MeasurementPageProps) => {
 
             <div
               id = 'showing-data'
+              className="w-full min-h-[350px]"
             >
-              <ShowingData data={summaryData}/>
+              <ShowingData addData={sendingData.current.slice(-1)} running={running}/>
             </div>
 
-            <div className="flex flex-col w-full items-center justify-center h-full">
+            <div className="flex flex-col w-full items-center justify-center h-full mt-auto">
               <CustomButton 
                 onchange={() => {
                   setRunning(false);

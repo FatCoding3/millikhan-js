@@ -1,7 +1,7 @@
 
 import React, { useState, createContext } from 'react';
 import { MeasurementPage } from './page-fragments/measurement-page';
-import { CalculatedDataItem, DataValidation, DeleteInfo } from './page-fragments/calculation-page/data-validation';
+import { DeleteInfo } from './page-fragments/calculation-page/data-validation';
 import { CalculationPage, RawDataItem } from './page-fragments/calculation-page';
 import { VelocitiesDataItem } from './model/oil-drop';
 import { calculateCharges } from './model/calculation-lib';

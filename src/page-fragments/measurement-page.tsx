@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { RangeInput } from "../components/range-input";
 import { MachineDisplay } from "../components/machine-display";
 import { CustomButton } from "../components/custom-button";
-import { ReportBox, ReportData } from "../components/report-box";
+import { ReportBox } from "../components/report-box";
 import { VelocitiesDataItem } from "../model/oil-drop";
 import { ShowingData } from "../components/showing-data";
 

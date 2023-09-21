@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { VelocitiesDataItem } from "../model/oil-drop";
 
 export const ShowingData = (props: { data: VelocitiesDataItem[] }) => {

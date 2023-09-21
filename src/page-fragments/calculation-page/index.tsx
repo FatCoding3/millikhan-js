@@ -1,6 +1,5 @@
 import React, { useState } from "react"
-import { CalculatedDataItem, DataValidation } from "./data-validation"
-import { CheckE } from "../../components/check-e";
+import { CalculatedDataItem } from "./data-validation"
 import { FindingE } from "./finding-e";
 
 export interface RawDataItem {

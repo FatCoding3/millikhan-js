@@ -4,7 +4,7 @@ import { usedConstants } from "./constants";
 
 export class Air extends Field {
   readonly DENSITY = 1.293;
-  readonly VISCOSITY = 1.749e-5;
+  readonly VISCOSITY = 1.849e-5;
 
   constructor(apply_range: number[]) {
     super(apply_range);

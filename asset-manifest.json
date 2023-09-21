@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/millikhan-js/static/css/main.31b8a1e2.css",
-    "main.js": "/millikhan-js/static/js/main.a5a555cf.js",
+    "main.js": "/millikhan-js/static/js/main.18b1884c.js",
     "static/js/787.6942da20.chunk.js": "/millikhan-js/static/js/787.6942da20.chunk.js",
     "index.html": "/millikhan-js/index.html",
     "main.31b8a1e2.css.map": "/millikhan-js/static/css/main.31b8a1e2.css.map",
-    "main.a5a555cf.js.map": "/millikhan-js/static/js/main.a5a555cf.js.map",
+    "main.18b1884c.js.map": "/millikhan-js/static/js/main.18b1884c.js.map",
     "787.6942da20.chunk.js.map": "/millikhan-js/static/js/787.6942da20.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.31b8a1e2.css",
-    "static/js/main.a5a555cf.js"
+    "static/js/main.18b1884c.js"
   ]
 }
